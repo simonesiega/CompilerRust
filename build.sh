@@ -1,19 +1,13 @@
 set -e
 
-# Crea la cartella out se non esiste
-mkdir -p out
-
-echo "[1] Compilazione compilatore..."
+# 1. Compila il progetto Rust (compilatore)
+echo "Compilazione del compilatore Rust..."
 cargo build --release
 
-echo "[2] Esecuzione compilatore..."
+# 2. Esegui il compilatore Rust per generare output.asm
+echo "Esecuzione del compilatore per generare assembly..."
 ./target/release/compiler_rust
 
-echo "[3] Compilazione NASM..."
-nasm -f elf64 out/out.asm -o out/out.o
-
-echo "[4] Linking..."
-ld out/out.o -o out/output
-
-echo "[5] Esecuzione:"
-./out/output
+# 3. Assembla e linka l'assembly con NASM e ld
+echo "Compilazione assembly con NASM..."
+./assemble.sh out/output.asm
